@@ -18,7 +18,7 @@ class BestMoviesSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(restrict_xpaths='//div[@class="ipc-title ipc-title--base ipc-title--title ipc-title-link-no-icon ipc-title--on-textPrimary sc-b189961a-9 iALATN dli-title"]/a[@class="ipc-title-link-wrapper"]'), callback="parse_item", follow=True),
-        Rule(LinkExtractor(restrict_xpaths='//button[@class="ipc-btn ipc-btn--single-padding ipc-btn--center-align-content ipc-btn--default-height ipc-btn--core-base ipc-btn--theme-base ipc-btn--on-accent2 ipc-text-button ipc-see-more__button"]'), process_request='set_user_agent'),
+        Rule(LinkExtractor(restrict_xpaths='//button[@class="ipc-btn ipc-btn--single-padding ipc-btn--center-align-content ipc-btn--default-height ipc-btn--core-base ipc-btn--theme-base ipc-btn--on-accent2 ipc-text-button ipc-see-more__button"]/@role'), process_request='set_user_agent'),
     )
 
     def set_user_agent(self, request, spider):
