@@ -1,4 +1,4 @@
-# Scrapy settings for livecoin project
+# Scrapy settings for livecoinwatch project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,16 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "livecoin"
+BOT_NAME = "livecoinwatch"
 
-SPIDER_MODULES = ["livecoin.spiders"]
-NEWSPIDER_MODULE = "livecoin.spiders"
+SPIDER_MODULES = ["livecoinwatch.spiders"]
+NEWSPIDER_MODULE = "livecoinwatch.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "livecoin (+http://www.yourdomain.com)"
+# USER_AGENT = "livecoinwatch (+http://www.yourdomain.com)"
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -44,12 +46,18 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+#SPIDER_MIDDLEWARES = {
+#    "livecoinwatch.middlewares.LivecoinwatchSpiderMiddleware": 543,
+#}
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
+#DOWNLOADER_MIDDLEWARES = {
+#    "livecoinwatch.middlewares.LivecoinwatchDownloaderMiddleware": 543,
+#}
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
@@ -57,8 +65,6 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
-
-# HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -69,7 +75,7 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "livecoin.pipelines.LivecoinPipeline": 300,
+#    "livecoinwatch.pipelines.LivecoinwatchPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
