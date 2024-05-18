@@ -1,15 +1,19 @@
 from typing import Any
 import scrapy
+from scrapy.selector import Selector
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 from shutil import which
 
 
 class CoinSpiderSelenium(scrapy.Spider):
     name = "coin_selenium"
-    allowed_domains = ["livecoinwatch.com"]
-    start_urls = ["https://livecoinwatch.com"]
+    allowed_domains = ["web.archive.org"]
+    start_urls = [
+        "https://web.archive.org/web/20200116052415/https://www.livecoin.net/en/"
+    ]
 
     def __init__(self):
         option = Options()
@@ -19,24 +23,20 @@ class CoinSpiderSelenium(scrapy.Spider):
 
         service = Service(executable_path=chrome_path)
         driver = webdriver.Chrome(service=service, options=option)
-        driver.get("https://livecoinwatch.com")
+        driver.set_window_size(1920, 1080)
+        driver.get("https://web.archive.org/web/20200116052415/https://www.livecoin.net/en/")
 
-    script = '''
-        function main(splash, args)
-            url = args.url
-            assert(splash:go(url))
-            assert(splash:wait(5))
-            coin_tab = assert(splash:select_all(".table-row filter-row"))
-            assert(splash:wait(5))
-            splash:set_viewport_full()
-            return splash:html()
-        end
-    '''
+        coin_tab = driver.find_element(By.CLASS_NAME, "filterPanelItem___2z5Gb")
+        coin_tab.click()
 
-    def start_requests(self):
-        yield SplashRequest (url="https://livecoinwatch.com", callback=self.parse, endpoint="execute", args={
-            'lua_source' : self.script
-        })
+        self.html = driver.page_source
+        driver.close()
         
     def parse(self, response):
-        print(response.body)
+        resp = Selector(text=self.html)
+        for currency in resp.xpath('//div[contains(@class, "ReactVirtualized__Table__row tableRow___3EtiS ")]'):
+            yield {
+                'currency_pair' : currency.xpath(".//div[1]/div/text()").get(),
+                'volume(24)' : currency.xpath(".//div[2]/span/text()").get(),
+                'last_price' : currency.xpath(".//div[3]/span/text()").get()
+            }
