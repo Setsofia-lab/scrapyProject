@@ -63,9 +63,11 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "imdb.pipelines.ImdbPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "imdb.pipelines.SQLitePipeline": 300
+}
+
+# MONGO_URI =  "Hello World"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
